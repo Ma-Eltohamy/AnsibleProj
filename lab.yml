@@ -1,0 +1,26 @@
+- name: update cache & installing nginx
+  hosts: all
+  become: yes
+  tasks:
+    - name: update the cache using apt
+      apt:
+        update_cache: yes
+
+    - name: installing nginx
+      apt:
+        name: nginx
+        state: latest
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: ./index.html
+        dest: /var/www/html/index.html
+        owner: iti
+        group: iti
+        mode: '0644'
+
+    - name: Restart service nginx, in all cases
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+        use: service
