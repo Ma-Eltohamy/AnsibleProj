@@ -1,0 +1,12 @@
+---
+- name: when Conditions
+  hosts: web_servers
+
+  tasks:
+  - name: my task1 with register
+    command: cat /etc/os-release
+    register: my_result
+  - name: my task2 with register
+    debug:
+      var: my_result
+    when: my_result.changed or my_result.failed == false

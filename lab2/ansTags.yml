@@ -1,0 +1,19 @@
+---
+- name: Updating and Installing nginx
+  hosts: web_servers
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      tags:
+        - update
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+      tags:
+        - install
+        - always
+

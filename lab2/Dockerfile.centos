@@ -1,0 +1,30 @@
+FROM centos:8
+
+# Install OpenSSH server and sudo
+RUN yum -y install openssh-server sudo && \
+    yum clean all
+
+RUN yum -y groupinstall "Development Tools" && \
+    yum -y install gcc openssl-devel bzip2-devel libffi-devel zlib-devel make && \
+    yum clean all
+
+RUN curl -O https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz && \
+    tar xzf Python-3.12.0.tgz && \
+    cd Python-3.12.0 && \
+    ./configure --enable-optimizations && \
+    make altinstall && \
+    cd .. && \
+    rm -rf Python-3.12.0.tgz Python-3.12.0
+
+RUN python3.12 --version
+
+
+RUN useradd iti && \
+    echo "iti:123" | chpasswd && \
+    usermod -aG wheel iti
+
+RUN ssh-keygen -A && \
+    sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/UsePAM yes/#UsePAM yes/' /etc/ssh/sshd_config
+
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]

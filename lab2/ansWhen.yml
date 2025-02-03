@@ -1,0 +1,28 @@
+---
+- name: when Conditions
+  hosts: web_servers
+  tasks:
+    - name: Install nginx for ubuntu 
+      apt:
+        name: nginx
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Install nginx for centos
+      yum:
+        name: nginx
+      when: ansible_facts['distribution'] == "CentOS"
+
+    - name: Restart nginx service if ubuntu
+      service:
+        name: nginx
+        state: restarted
+        use: service
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Restart httpd service if Centos
+      service:
+        name: httpd
+        state: restarted
+        use: service
+      when: ansible_facts['distribution'] == "CentOS"
+

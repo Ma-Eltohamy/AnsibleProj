@@ -1,0 +1,33 @@
+---
+- name: loopping
+  hosts: web_servers
+  become: yes
+  tasks:
+
+  vars:
+    packages:
+      # - nginx
+      # - git
+      # - curl
+      
+      - name: nginx
+        state: latest
+
+      - name: git
+        state: present
+
+      - name: curl
+        state: absent
+
+  tasks:
+    # - name: Install the latest version of each package
+    #   loop: "{{ packages }}"
+    #   apt:
+    #     name: "{{ item }}"
+    #     state: latest
+
+    - name: Install a spcific version of each package
+      loop: "{{ packages }}"
+      apt:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"

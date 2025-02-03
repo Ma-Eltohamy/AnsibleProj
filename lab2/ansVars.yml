@@ -1,0 +1,18 @@
+- name: Updating and Installing nginx
+  hosts: web_servers
+  become: yes
+  vars:
+    package_name: nginx
+    package_version: latest
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install "{{ package_name }}"
+      apt:
+        name: "{{ package_name }}"
+        state: "{{ package_version }}"
+
+# to run a variables from the cli
+# ansible-playbook ansVars.yml --extra-vars "package_name=apache2 package_version=latest"
