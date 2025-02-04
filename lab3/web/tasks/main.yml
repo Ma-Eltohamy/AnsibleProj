@@ -1,0 +1,13 @@
+- name: Installing nginx
+  apt:
+    name: "{{ package_name }}"
+    state: "{{ package_version }}"
+
+- name: Copying the index.html.j2 inside the host
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: myhandler
+  when_chnaged: true
+
+

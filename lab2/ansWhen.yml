@@ -8,7 +8,7 @@
       when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Install nginx for centos
-      yum:
+      package:
         name: nginx
       when: ansible_facts['distribution'] == "CentOS"
 

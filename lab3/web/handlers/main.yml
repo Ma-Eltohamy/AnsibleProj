@@ -1,0 +1,11 @@
+- name: myhandler
+  apt:
+    name: git
+    state: present
+  notify: another handler
+
+- name: another handler
+  apt:
+    name: neofetch
+    state: present
+

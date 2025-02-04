@@ -1,0 +1,5 @@
+---
+- name: Main ansible file
+  hosts: web_servers
+  roles:
+    - web
